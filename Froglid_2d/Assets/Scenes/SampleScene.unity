@@ -236,9 +236,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da454245fdc79b244998b98974696706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 16
-  height: 9
-  tilePrefab: {fileID: 1351885727117181513, guid: 841ffb7afe0034746a726bdded33bf55, type: 3}
+  mapSize: 0
+  tilePrefab: {fileID: 6737914036848211100, guid: bdf76a4bb9bd74c41a1c92d89475ee23, type: 3}
+  xOffset: 0
+  yOffset: 0
   cam: {fileID: 519420032}
 --- !u!4 &1784258326
 Transform:

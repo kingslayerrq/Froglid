@@ -12,10 +12,10 @@ public class Tile : MonoBehaviour
     private GameObject highlight;
 
     // change color for offset tiles
-    public void Init(bool isOffset)
-    {
-        sRenderer.color = isOffset ? offsetColor : baseColor;
-    }
+    //public void Init(bool isOffset)
+    //{
+        //sRenderer.color = isOffset ? offsetColor : baseColor;
+    //}
 
     private void OnMouseEnter()
     {

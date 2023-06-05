@@ -7,43 +7,65 @@ public class GridManager : MonoBehaviour
 
 {
 
-    [SerializeField]
-    private int width, height;
+    [SerializeField]//private int width, height;
+    private int mapSize;
+    
     [SerializeField]
     private Tile tilePrefab;
+    [SerializeField]
+    private int xOffset,yOffset;
     [SerializeField]
     private Transform cam;
     [Tooltip("Dictionary of tiles, key is (x, y) coordinates")]
     [SerializeField]
     private Dictionary<Vector2, Tile> tileDict;
 
-    void generateGrid()
+    void generateGrid(int size)
     {
         // Instantiate the dictionary
-        tileDict = new Dictionary<Vector2, Tile>();
-        // create the tiles, naming them (x, y) coordinates
-        for (int i = 0; i < width; i++)
+        //tileDict = new Dictionary<Vector2, Tile>();
+
+        //first half of the diamond
+        double xPos = 0;
+        double yPos = 0;
+        int space = size - 1;
+        for (int i = 0; i < size ; i++)
         {
-            for (int j = 0; j < height; j++)
+            xPos += 0.8 * space; //adjust x
+            for (int j = 0; j <= i; j++)
             {
 
-                Tile spawnTile = Instantiate(tilePrefab, new Vector3(i, j), Quaternion.identity);
-                spawnTile.name = $"Tile{i} {j}";
-
-                // Check for offset which renders a different color
-                bool isOffset = (i % 2 == 0 & j % 2 == 1) || (i % 2 == 1 & j % 2 == 0);
-                spawnTile.Init(isOffset);
-
-                // Store tiles into the dictionary
-                tileDict[new Vector2(i, j)] = spawnTile;
-
+                var tile = Instantiate(tilePrefab, new Vector2((float)xPos, (float)yPos), Quaternion.identity);
+                tile.name = $"Tile{xPos} {yPos}";
+                xPos += 0.8*2; //next tile in the same row
             }
+            xPos = 0;
+            yPos -= 1; // tile height 
+            space--;
+            
         }
+        //bottom half
+        space = 1;
+        for (int i = size - 1; i > 0; i--)
+        {
+            xPos += 0.8 * space;
+            for (int j = 0; j < i; j++)
+            {
+                var tile = Instantiate(tilePrefab, new Vector2((float)xPos, (float)yPos), Quaternion.identity);
+                tile.name = $"Tile{xPos} {yPos}";
+                xPos += 0.8 * 2;
+            }
+            xPos = 0;
+            yPos -= 1;
+            space++;
+        }
+        
 
 
         // set camera to middle of the grids
-        cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height / 2 - 0.5f, -10f);
+        cam.transform.position = new Vector3((float)(size-1)*0.8f, (float)-(size-1), -10f);
     }
+  
 
     // get tile by pos vector2
     public Tile getTileAtPos(Vector2 pos)
@@ -58,7 +80,7 @@ public class GridManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        generateGrid();
+        generateGrid(5);
     }
 
     // Update is called once per frame
